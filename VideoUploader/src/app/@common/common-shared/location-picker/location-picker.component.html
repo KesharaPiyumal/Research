@@ -1,0 +1,15 @@
+<div class="d-flex flex-row mb-2 w-100">
+    <div style="min-width: calc(100vw - 127px);">
+      <nb-form-field class="w-100">
+        <nb-icon nbPrefix icon="search-outline"></nb-icon>
+        <input nbInput placeholder="Search Location" fieldSize="small"  #searchKey />
+      </nb-form-field>
+    </div>
+    <button class="ml-1" size="small" nbButton status="primary" (click)="clearSearch()">Clear</button>
+    <button class="ml-1" size="small" nbButton status="primary" (click)="getCurrentLocation(false)">
+        <nb-icon pack="eva" icon="radio-outline"></nb-icon>
+    </button>
+  </div>
+<agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" (mapClick)="placeMarker($event)">
+  <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (drag)="dragMarker($event)"></agm-marker>
+</agm-map>

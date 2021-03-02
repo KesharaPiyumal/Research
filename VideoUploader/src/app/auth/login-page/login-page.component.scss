@@ -1,0 +1,36 @@
+.forgot-password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 0.8rem 'Open Sans', sans-serif;
+  margin: 10px 0 10px 0;
+}
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 0.8rem 'Open Sans', sans-serif;
+  margin-top: 10px;
+}
+.hr-line {
+  margin: 0;
+  border-top-color: #e4e9f2;
+}
+.sign-up-text {
+  text-decoration: none;
+  margin-left: 5px;
+  color: #3366ff;
+  font-weight: bold !important;
+  font: 0.8rem 'Open Sans', sans-serif;
+  &:active {
+    cursor: pointer;
+  }
+}
+.forgot-password-text {
+  text-decoration: none;
+  color: #3366ff;
+  font-weight: bold;
+  &:active {
+    cursor: pointer;
+  }
+}

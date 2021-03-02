@@ -1,0 +1,122 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <div class="d-flex flex-row align-items-center ml-2">
+      <ion-buttons>
+        <ion-button style="width: 32px;" shape="round" (click)="dismissModal()"
+          ><div class="d-flex justify-content-center align-items-center">
+            <nb-icon style="font-size: 24px;" icon="arrow-back-outline"></nb-icon></div
+        ></ion-button>
+      </ion-buttons>
+      <span style="font-size: 16px;">{{ this.tutorData['firstName'] + ' ' + this.tutorData['lastName'] }}</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen [nbSpinner]="ratingLoading || tutorLoading || studentLoading || tutorRateLoading" nbSpinnerStatus="info">
+  <div class="top-bg">
+    <div class="d-flex justify-content-center align-items-center pro-tutor">
+      <fa-icon class="pro-tutor-icon" icon="user-circle"></fa-icon>
+    </div>
+  </div>
+  <div class="mt-5 d-flex justify-content-center">
+    <span style="font-size: 18px;">{{ this.tutorData['firstName'] + ' ' + this.tutorData['lastName'] }}</span>
+  </div>
+  <div class="d-flex align-items-center justify-content-center">
+    <div>
+      <button style="text-transform: capitalize;" nbButton size="small" ghost status="basic" (click)="openMoreAboutTutorModal()">
+        ( Show More About )
+      </button>
+    </div>
+  </div>
+  <div style="max-height: calc(100vh - 355px); overflow: auto;">
+    <div class="d-flex flex-row justify-content-center align-items-center mb-2 mt-2">
+      <button style="text-transform: capitalize;" nbButton status="primary" size="small" class="mr-2" (click)="call()">
+        Call<fa-icon class="ml-2" icon="phone"></fa-icon>
+      </button>
+      <button style="text-transform: capitalize;" nbButton status="primary" outline size="small">
+        Message<fa-icon class="ml-2" icon="comment-alt"></fa-icon>
+      </button>
+    </div>
+    <div class="d-flex flex-row align-items-center justify-content-center mb-1">
+      <span class="mr-2 d-flex flex-row align-items-center" style="font-size: 12px;">{{ tutorData['rating'] + ' / 5 ' }}</span>
+      <span style="font-size: 15px;" class="mr-2">|</span>
+      <span style="font-size: 12px;">( {{ tutorData['ratingCount'] }} People Rated )</span>
+    </div>
+    <div class="d-flex justify-content-center mb-1">
+      <nb-progress-bar
+        [status]="tutorData['ratingStatus']"
+        size="tiny"
+        [value]="(tutorData['rating'] / 5) * 100"
+        style="width: 80%;"
+      ></nb-progress-bar>
+    </div>
+    <div
+      class="d-flex flex-row align-items-center justify-content-center mb-2 mt-3"
+      [nbPopover]="GeoAddressPopoverTemplateRef"
+      nbPopoverTrigger="noop"
+      nbPopoverPlacement="top"
+      nbPopoverContext="geoAddressPopover"
+      (click)="popoverSet()"
+    >
+      <fa-icon style="color: #36f; font-size: 32px; margin-bottom: 5px;" class="mr-2" icon="map-marker-alt"></fa-icon>
+      <div class="d-flex flex-column">
+        <span style="color: #3366ff; font-size: 28px;">{{ tutorData['distanceRange'] | number: '1.1-1' }} Km</span>
+        <span>Away From you</span>
+      </div>
+    </div>
+    <ng-template #GeoAddressPopoverTemplateRef>
+      <div class="p-2 d-flex justify-content-center align-items-center" style="width: auto;">
+        <p class="mb-0" style="font-size: 12px; color: #8f9bb3;">
+          {{ tutorData['geoAddress'] ? tutorData['geoAddress'] : 'Un-named Location' }}
+        </p>
+      </div>
+    </ng-template>
+    <section>
+      <div class="ml-4 mr-4" style="border-bottom: 1px solid #36f;">
+        <span style="color: #36f;">Reviews</span>
+      </div>
+      <div class="pl-4 pr-4 pt-2">
+        <textarea fullWidth nbInput rows="2" [(ngModel)]="review"></textarea>
+        <div class="d-flex justify-content-end">
+          <button nbButton status="primary" size="small" (click)="addReview()">
+            {{ addTutorReview ? 'Post Review' : 'Update Review' }}
+          </button>
+        </div>
+      </div>
+      <section class="pl-4 pr-4 pt-2 d-flex flex-column">
+        <div
+          *ngFor="let tRate of tutorRateList; let y = index"
+          class="mb-2"
+          [ngStyle]="{ borderBottom: tRate['border'] ? '1px solid #e2dcdca3' : 'none' }"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-row align-items-center">
+              <fa-icon style="font-size: 30px; color: #d1d7e6;" class="mr-3" icon="user-circle"></fa-icon>
+              <span style="font-size: 12px; font-weight: bold; color: #8b909c;">{{
+                tRate.student.firstName + ' ' + tRate.student.lastName
+              }}</span>
+              <span *ngIf="tRate['studentId'] === studentData['userId']" style="font-size: 12px; color: #8b909c;" class="ml-2">(You)</span>
+            </div>
+            <span style="font-size: 11px; color: #8f9bb3;">{{ tRate['updatedAt'] | date: 'short' }}</span>
+          </div>
+          <div class="stars-outer">
+            <div [ngStyle]="{ width: tRate['width'] }" class="stars-inner"></div>
+          </div>
+          <div class="mb-2">
+            <p class="mb-0" style="color: #8f9bb3; font-size: 11px;">{{ tRate['review'] }}</p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+  <div style="position: fixed; bottom: 0; height: 3rem;border-top: 1px solid #36f" class="w-100">
+    <div class="d-flex justify-content-center align-items-center h-100 p-2">
+      <div class="d-flex flex-row">
+        <span style="color: #36f;" class="mr-2">You've Rated |</span>
+        <div *ngFor="let r of tutorRatings; let j = index" class="d-flex flex-row align-items-center" (click)="selectionStarRating(j)">
+          <nb-icon style="color: #36f;" *ngIf="!r['selected']" icon="star-outline"></nb-icon>
+          <fa-icon style="color: #36f;" *ngIf="r['selected']" icon="star"></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

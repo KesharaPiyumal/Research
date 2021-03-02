@@ -1,0 +1,83 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <div class="d-flex justify-content-between align-items-center pl-3 pr-1">
+      <span style="font-size: 16px;">{{ tutorData ? tutorData['firstName'] + ' ' + tutorData['lastName'] : '' }}</span>
+      <ion-buttons>
+        <ion-button style="width: 32px;" shape="round" (click)="dismissModal()"
+          ><div class="d-flex justify-content-center align-items-center">
+            <nb-icon style="font-size: 24px;" icon="close-outline"></nb-icon></div
+        ></ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <div class="p-3">
+    <div class="d-flex flex-column mb-3">
+      <div style="border-bottom: 1px solid #36f;" class="mb-2">
+        <span style="color: #36f;">Education</span>
+      </div>
+      <nb-card style="border-left: 4px solid #36f;" class="mb-0 bg-edu">
+        <div class="p-2 d-flex flex-column bg-edu-inner">
+          <div class="mb-1">
+            <span class="more-title-txt">Highest Education Qualification</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{
+                tutorData
+                  ? tutorData['highestEducationQualification']
+                    ? tutorData['highestEducationQualification']
+                    : 'Not mentioned'
+                  : 'Not mentioned'
+              }}
+            </p>
+          </div>
+          <div class="mb-1">
+            <span class="more-title-txt">Higher Education At,</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{ tutorData ? (tutorData['higherStudiedAt'] ? tutorData['higherStudiedAt'] : 'Not mentioned') : 'Not mentioned' }}
+            </p>
+          </div>
+          <div class="mb-1">
+            <span class="more-title-txt">Secondary Education At,</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{ tutorData ? (tutorData['secondaryStudiedAt'] ? tutorData['secondaryStudiedAt'] : 'Not mentioned') : 'Not mentioned' }}
+            </p>
+          </div>
+          <div>
+            <span class="more-title-txt">Primary Education At,</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{ tutorData ? (tutorData['primaryStudiedAt'] ? tutorData['primaryStudiedAt'] : 'Not mentioned') : 'Not mentioned' }}
+            </p>
+          </div>
+        </div>
+      </nb-card>
+    </div>
+    <div class="d-flex flex-column">
+      <div style="border-bottom: 1px solid #36f;" class="mb-2">
+        <span style="color: #36f;">Personal</span>
+      </div>
+      <nb-card style="border-left: 4px solid #36f;" class="mb-0 bg-personal">
+        <div class="p-2 d-flex flex-column bg-personal-inner">
+          <div class="mb-1">
+            <span class="more-title-txt">About</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{ tutorData ? (tutorData['about'] ? tutorData['about'] : 'Not mentioned') : 'Not mentioned' }}
+            </p>
+          </div>
+          <div class="mb-1">
+            <span class="more-title-txt">Email</span>
+            <p class="mb-0 ml-3 more-title-value">
+              {{ tutorData ? (tutorData['email'] ? tutorData['email'] : 'Not mentioned') : 'Not mentioned' }}
+            </p>
+          </div>
+          <div class="d-flex flex-column">
+            <span class="more-title-txt">Phone</span>
+            <span class="ml-3 more-title-value">{{
+              tutorData ? (tutorData['mobileNumber'] ? tutorData['mobileNumber'] : 'Not mentioned') : 'Not mentioned'
+            }}</span>
+          </div>
+        </div></nb-card
+      >
+    </div>
+  </div>
+</ion-content>

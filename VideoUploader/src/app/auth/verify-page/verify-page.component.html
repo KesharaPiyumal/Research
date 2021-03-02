@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true" [nbSpinner]="loading" nbSpinnerStatus="primary">
+  <div class="d-flex justify-content-center align-items-center h-100">
+    <div>
+      <div class="d-flex w-100 flex-column pt-3">
+        <div class="d-flex justify-content-center">
+          <img style="width: 20%;" alt="" src="../../../assets/icon.png" />
+        </div>
+        <div class="d-flex justify-content-center">
+          <h6><span style="font-family: 'Paytone One', serif; font-size: 1.8rem;">FindTutor</span></h6>
+        </div>
+      </div>
+      <div class="p-3">
+        <form [formGroup]="verifyForm" class="w-100 d-flex flex-column">
+          <div class="mb-2 d-flex flex-column">
+            <input
+              nbInput
+              fieldSize="medium"
+              fullWidth
+              type="text"
+              placeholder="Paste here your token"
+              formControlName="token"
+              [status]="token.touched ? (token.invalid ? 'danger' : 'primary') : 'basic'"
+            />
+            <ng-container *ngIf="token.invalid && token.touched">
+              <span class="caption-danger" *ngIf="token.errors?.required">required!</span>
+            </ng-container>
+          </div>
+          <button nbButton class="mb-2" status="primary" hero (click)="verify()">Verify</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,27 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 0.8rem 'Open Sans', sans-serif;
+  margin-top: 10px;
+}
+.login-text {
+  text-decoration: none;
+  margin-left: 5px;
+  color: #3366ff;
+  font-weight: bold !important;
+  font: 0.8rem 'Open Sans', sans-serif;
+  &:active {
+    cursor: pointer;
+  }
+}
+
+.popover-location {
+  width: auto;
+}
+.pop-top {
+  height: 0.25rem;
+  background-color: #36f;
+  border-top-left-radius: 0.17rem;
+  border-top-right-radius: 0.17rem;
+}

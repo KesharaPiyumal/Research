@@ -1,0 +1,32 @@
+.more-title-txt {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.more-title-value {
+  font-size: 12px;
+}
+
+.bg-edu {
+  background: url('../../../assets/images/education.svg') center;
+  background-size: cover;
+  width: 100%;
+}
+.bg-edu-inner{
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0px);
+  background-color: #ffffffd6;
+}
+
+.bg-personal {
+  background: url('../../../assets/images/personal.svg') center;
+  background-size: cover;
+  width: 100%;
+}
+.bg-personal-inner{
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0px);
+  background-color: #ffffffd6;
+}

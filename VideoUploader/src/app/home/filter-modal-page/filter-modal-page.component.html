@@ -1,0 +1,75 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <div class="d-flex flex-row align-items-center ml-2">
+      <ion-buttons>
+        <ion-button style="width: 32px;" shape="round" (click)="dismissModal()"
+          ><div class="d-flex justify-content-center align-items-center">
+            <nb-icon style="font-size: 24px;" icon="arrow-back-outline"></nb-icon></div
+        ></ion-button>
+      </ion-buttons>
+      <span style="font-size: 16px;">Filter By</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen [nbSpinner]="examsLoading || subjectsLoading" nbSpinnerStatus="info">
+  <div class="p-3">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-md-12 mb-2">
+          <label class="label">Examination :</label>
+          <nb-select
+            placeholder="Examination"
+            formControlName="examId"
+            fullWidth
+            class="d-flex flex-row align-items-center"
+            status="primary"
+            (ngModelChange)="examinationOrGradeChange($event)"
+          >
+            <nb-option *ngFor="let exam of examsDropdown" [value]="exam['value']">{{ exam['label'] }}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-12 mb-2">
+          <label class="label">Medium :</label>
+          <nb-select
+            placeholder="Medium"
+            formControlName="mediumId"
+            fullWidth
+            class="d-flex flex-row align-items-center"
+            (ngModelChange)="mediumChange($event)"
+            [status]="mediumId.touched ? (mediumId.invalid ? 'danger' : 'primary') : 'basic'"
+            [attr.aria-invalid]="mediumId.invalid && mediumId.touched ? true : null"
+          >
+            <nb-option *ngFor="let medium of mediumDropdown" [value]="medium['value']">{{ medium['label'] }}</nb-option>
+          </nb-select>
+          <ng-container *ngIf="mediumId.invalid && mediumId.touched">
+            <span class="caption-danger" *ngIf="mediumId.errors?.required">
+              required!
+            </span>
+          </ng-container>
+        </div>
+        <div class="col-md-12 mb-2">
+          <label class="label">Subjects :</label>
+          <nb-select
+            placeholder="Subjects"
+            formControlName="subjectIds"
+            multiple
+            fullWidth
+            class="d-flex flex-row align-items-center"
+            status="primary"
+          >
+            <nb-option *ngFor="let subject of subjectsDropdown" [value]="subject['value']">{{ subject['label'] }}</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-md-12 mb-2">
+          <label class="label">Distance Range (km) :</label>
+          <div class="d-flex flex-row">
+            <input type="number" fullWidth nbInput status="primary" formControlName="distanceRange" />
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="d-flex justify-content-center mt-2">
+      <button nbButton status="primary" fullWidth hero (click)="dismissModal(true)">Filter</button>
+    </div>
+  </div>
+</ion-content>

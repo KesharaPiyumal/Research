@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true" [nbSpinner]="loading" nbSpinnerStatus="primary">
+  <div class="d-flex justify-content-center align-items-center h-100">
+    <div>
+      <div class="d-flex w-100 flex-column pt-3">
+        <div class="d-flex justify-content-center">
+          <img style="width: 20%;" alt="" src="../../../assets/icon.png" />
+        </div>
+        <div class="d-flex justify-content-center">
+          <h6><span style="font-family: 'Paytone One', serif; font-size: 1.8rem;">FindTutor</span></h6>
+        </div>
+      </div>
+      <div class="p-3">
+        <form [formGroup]="loginForm" class="w-100 d-flex flex-column">
+          <div class="mb-2 d-flex flex-column">
+            <nb-form-field>
+              <nb-icon nbPrefix icon="email-outline" pack="eva"></nb-icon>
+              <input
+                id="email"
+                nbInput
+                fieldSize="medium"
+                fullWidth
+                type="email"
+                placeholder="Email"
+                formControlName="email"
+                [status]="email.touched ? (email.invalid ? 'danger' : 'primary') : 'basic'"
+              />
+            </nb-form-field>
+            <ng-container *ngIf="email.invalid && email.touched">
+              <span class="caption-danger" *ngIf="email.errors?.required">required!</span>
+            </ng-container>
+          </div>
+          <div class="mb-3 d-flex flex-column">
+            <nb-form-field>
+              <nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+              <input
+                id="password"
+                type="password"
+                nbInput
+                fieldSize="medium"
+                fullWidth
+                placeholder="Password"
+                formControlName="password"
+                [status]="password.touched ? (password.invalid ? 'danger' : 'primary') : 'basic'"
+              />
+            </nb-form-field>
+            <ng-container *ngIf="password.invalid && password.touched">
+              <span class="caption-danger" *ngIf="password.errors?.required">required!</span>
+            </ng-container>
+          </div>
+          <button nbButton class="mb-2" status="primary" hero (click)="userLogin(user)">Login</button>
+          <section class="forgot-password-container">
+            <a class="text-link forgot-password-text" routerLink="../request-password">Forgot Password?</a>
+          </section>
+          <hr class="hr-line" [ngStyle]="{ borderTopColor: '#3366ff' }" />
+          <section class="register-container" aria-label="Register">
+            Don't have an account?
+            <a class="text-link sign-up-text" routerLink="../register">Sign up</a>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>
