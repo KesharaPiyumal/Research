@@ -1,3 +1,4 @@
 /.idea/
 /VideoUploader/plugins/
 /flaskServer/.idea/
+/flaskServer/venv/Lib/
