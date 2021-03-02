@@ -5,13 +5,12 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { StatusCodes, ToastStatus, UserType } from '../../@common/enum';
 import { ToastService } from '../../@common/services/toast.service';
 import { NbPopoverDirective } from '@nebular/theme';
-import { ProfileModalPageComponent } from '../profile-modal-page/profile-modal-page.component';
 import { MoreAboutTutorComponent } from '../more-about-tutor/more-about-tutor.component';
 
 @Component({
   selector: 'app-view-tutor-profile',
   templateUrl: './view-tutor-profile.component.html',
-  styleUrls: ['./view-tutor-profile.component.scss'],
+  styleUrls: ['./view-tutor-profile.component.scss']
 })
 export class ViewTutorProfileComponent implements OnInit {
   @ViewChildren(NbPopoverDirective) popovers: QueryList<NbPopoverDirective>;
@@ -22,7 +21,7 @@ export class ViewTutorProfileComponent implements OnInit {
     { id: 2, selected: false },
     { id: 3, selected: false },
     { id: 4, selected: false },
-    { id: 5, selected: false },
+    { id: 5, selected: false }
   ];
   selectedRate: any;
   ratingLoading = false;
@@ -33,6 +32,7 @@ export class ViewTutorProfileComponent implements OnInit {
   tutorRateList = [];
   addTutorReview = true;
   review = '';
+
   constructor(
     public params: NavParams,
     public modalController: ModalController,
@@ -56,7 +56,8 @@ export class ViewTutorProfileComponent implements OnInit {
   }
 
   dismissModal() {
-    this.modalController.dismiss({ isRated: this.isRated }, 'cancel').then((r) => {});
+    this.modalController.dismiss({ isRated: this.isRated }, 'cancel').then((r) => {
+    });
   }
 
   selectionStarRating(rateIndex: number) {
@@ -67,7 +68,8 @@ export class ViewTutorProfileComponent implements OnInit {
     for (let x = 0; x < rateIndex + 1; x++) {
       this.tutorRatings[x]['selected'] = true;
     }
-    this.presentAlertConfirm().then((r) => {});
+    this.presentAlertConfirm().then((r) => {
+    });
   }
 
   call() {
@@ -86,15 +88,16 @@ export class ViewTutorProfileComponent implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {},
+          handler: () => {
+          }
         },
         {
           text: 'Yes',
           handler: () => {
             this.rateTutor();
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
     await alert.present();
   }
@@ -106,7 +109,7 @@ export class ViewTutorProfileComponent implements OnInit {
       rateData = {
         studentId: this.studentData['userId'],
         tutorId: this.tutorData['id'],
-        rateId: this.selectedRate['id'],
+        rateId: this.selectedRate['id']
       };
     }
     this.homeService.rateTutor(rateData).subscribe(
@@ -187,7 +190,8 @@ export class ViewTutorProfileComponent implements OnInit {
               item['studenttutorrates'].forEach((stTutorRate) => {
                 if (stTutorRate['tutorId'] === this.tutorData['id']) {
                   let rateIndex;
-                  this.tutorRatings.forEach((item) => {
+                  // tslint:disable-next-line:no-shadowed-variable
+                  this.tutorRatings.forEach((item: any) => {
                     if (stTutorRate['rateId'] === item['id']) {
                       item['selected'] = true;
                       rateIndex = this.tutorRatings.indexOf(item);
@@ -234,7 +238,11 @@ export class ViewTutorProfileComponent implements OnInit {
   addReview() {
     this.tutorRateLoading = true;
     if (this.tutorData) {
-      this.homeService.addReview({ tutorId: this.tutorData['id'], studentId: this.studentData['userId'], review: this.review }).subscribe(
+      this.homeService.addReview({
+        tutorId: this.tutorData['id'],
+        studentId: this.studentData['userId'],
+        review: this.review
+      }).subscribe(
         (response) => {
           this.tutorRateLoading = false;
           this.review = '';
@@ -255,7 +263,7 @@ export class ViewTutorProfileComponent implements OnInit {
   async openMoreAboutTutorModal() {
     const modal = await this.modalController.create({
       component: MoreAboutTutorComponent,
-      componentProps: { tutor: this.tutorData },
+      componentProps: { tutor: this.tutorData }
     });
     await modal.present();
     const modalData = await modal.onWillDismiss();

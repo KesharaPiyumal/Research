@@ -1,102 +1,57 @@
-<div class="ion-page" id="main-content">
+<div class='ion-page' id='main-content'>
   <ion-header>
     <ion-toolbar>
-      <div class="d-flex flex-row align-items-center">
-        <img class="ml-3" style="width: 11%;" src="../../assets/icon.png" alt="" />
-        <ion-title style="font-family: 'Paytone One', serif; font-size: 1.6rem;">FindTutor</ion-title>
-        <ion-buttons slot="end">
-          <ion-button shape="round" (click)="presentPopover($event)"
-            ><div style="width: 16px; height: 32px;" class="d-flex justify-content-center align-items-center">
-              <fa-icon style="font-size: 16px;" icon="ellipsis-v"></fa-icon></div
-          ></ion-button>
+      <div class='d-flex flex-row align-items-center'>
+        <ion-title>Sign Translator</ion-title>
+        <ion-buttons slot='end'>
+          <ion-button shape='round' (click)='presentPopover($event)'
+          >
+            <div style='width: 16px; height: 32px;' class='d-flex justify-content-center align-items-center'>
+              <fa-icon style='font-size: 16px;' icon='ellipsis-v'></fa-icon>
+            </div
+            >
+          </ion-button>
         </ion-buttons>
       </div>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding" [nbSpinner]="tutorLoading" nbSpinnerStatus="info">
-    <div class="w-100 d-flex justify-content-between mb-1">
-      <button nbButton ghost status="primary" size="small" class="ml-1" (click)="getAllTutorsWithoutFiltering()">
-        <fa-icon class="mr-1" icon="sync"></fa-icon>All
-      </button>
-      <button nbButton ghost status="primary" size="small" class="ml-1" (click)="openFilterModal()">
-        <fa-icon class="mr-1" icon="filter"></fa-icon>Filter By
-      </button>
-    </div>
-    <div class="w-100" *ngIf="!isNotFound" style="height: calc(100vh - 125px); overflow: auto;">
-      <nb-card
-        *ngFor="let tutor of tutorList; let i = index"
-        style="box-shadow: 0px 2px 5px #bababa;"
-        class="mb-3"
-        (click)="goToTutorProfile(tutor)"
-      >
-        <nb-card-header style="padding: 0.5rem 1rem; background-color: #f6f6f6;">
-          <div class="w-100 d-flex flex-row align-items-center">
-            <div style="min-width: 240px; max-width: 240px;" class="d-flex flex-row">
-              <fa-icon style="font-size: 35px; color: #d1d7e6;" icon="user-circle"></fa-icon>
-              <div class="ml-2 d-flex flex-column">
-                <span style="font-size: 13px;">{{ tutor['firstName'] + ' ' + tutor['lastName'] }}</span>
-                <div class="d-flex flex-row align-items-center">
-                  <span class="mr-2" style="font-size: 11px; margin-top: -5px; font-weight: lighter;">{{ tutor['age'] }} yrs</span>
-                  <span style="font-size: 11px; margin-top: -5px; font-weight: lighter;"
-                    ><fa-icon style="font-size: 7px;" class="mr-1" icon="circle"></fa-icon>{{ tutor['gender'] }}</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-end" style="min-width: calc(100vw - 300px);">
-              <ion-buttons>
-                <ion-button (click)="goToTutorProfile(tutor)"><fa-icon icon="chevron-right"></fa-icon></ion-button>
-              </ion-buttons>
-            </div>
-          </div>
-        </nb-card-header>
-        <div>
-          <div class="d-flex flex-column p-3">
-            <div class="d-flex flex-row" style="font-size: 12px; min-width: 130px;">
-              <span style="min-width: 130px; color: #c0c8cf;">Targeted Exam:</span><span>{{ tutor['exam']['name'] }}</span>
-            </div>
-            <div class="d-flex flex-row" style="font-size: 12px; min-width: 130px;">
-              <span style="min-width: 130px; color: #c0c8cf;">Medium:</span><span>{{ tutor['medium']['name'] }}</span>
-            </div>
-            <div class="d-flex flex-row">
-              <span style="font-size: 12px; min-width: 130px; color: #c0c8cf;">Subjects:</span>
-              <span style="font-size: 12px;">{{ tutor['allSubjects'] }}</span>
-            </div>
-          </div>
+  <ion-content class='ion-padding'>
+    <div class='p-3'>
+      <form [formGroup]='uploadForm' class='w-100 d-flex flex-column'>
+        <div class='mb-2 d-flex flex-column'>
+          <input
+            id='file'
+            nbInput
+            fieldSize='medium'
+            fullWidth
+            type='text'
+            placeholder='Video File'
+            formControlName='file'
+            [status]="file.touched ? (file.invalid ? 'danger' : 'primary') : 'basic'"
+          />
         </div>
-        <nb-card-footer style="padding: 0.5rem 1rem;">
-          <div class="d-flex align-items-center">
-            <div id="home-card-bar" class="w-100 d-flex flex-column">
-              <div class="d-flex w-100 justify-content-between">
-                <span class="rated-txt"
-                  >{{ tutor['rating'] }}/5
-                  <span class="ml-1" style="font-size: 11px;"
-                    ><fa-icon class="mr-1" style="font-size: 8px;" icon="star"></fa-icon>Ratings</span
-                  ></span
-                >
-                <span class="km-txt">{{ tutor['distanceRange'] | number: '1.1-1' }} km</span>
-              </div>
-              <nb-progress-bar
-                class="mt-1 w-100"
-                [status]="tutor['ratingStatus']"
-                size="tiny"
-                [value]="(tutor['rating'] / 5) * 100"
-              ></nb-progress-bar>
-            </div>
-          </div>
-        </nb-card-footer>
-      </nb-card>
+        <button nbButton class='mb-2' status='basic' hero (click)='fileInput.click()'>Choose
+          <nb-icon icon='file-add-outline'></nb-icon>
+        </button>
+        <button nbButton class='mb-2' status='primary' hero (click)='uploadVideo()'>Upload & Translate
+          <nb-icon icon='upload-outline'></nb-icon>
+        </button>
+        <div class='d-flex flex-column mb-2'>
+            <textarea
+              nbInput
+              rows='2'
+              formControlName='translatedText'
+              type='text'
+              placeholder='Translated text..'
+              fullWidth
+              fieldSize='medium'
+            ></textarea>
+        </div>
+      </form>
     </div>
-
-    <div *ngIf="isNotFound" class="w-100 not-found-bg">
-      <div class="not-found-text">
-        <h6 style="color: #36f;" class="mb-0">Not Found</h6>
-      </div>
-    </div>
-    <div class="mt-2" *ngIf="isNotFound">
-      <button nbButton fullWidth status="primary" hero (click)="openFilterModal()">
-        Search Again<fa-icon class="ml-3" icon="sync-alt"></fa-icon>
-      </button>
+    <!--input image file-->
+    <div style='display: none'>
+      <input type='file' id='videoUpload' accept='video/mp4,video/x-m4v,video/*' #fileInput (change)='chooseFile($event)' />
     </div>
   </ion-content>
 </div>

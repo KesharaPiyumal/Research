@@ -7,17 +7,16 @@ import {
   NbBadgeModule,
   NbButtonModule,
   NbCardModule,
-  NbContextMenuModule,
+  NbContextMenuModule, NbFormFieldModule,
   NbIconModule,
   NbInputModule,
   NbPopoverModule,
   NbProgressBarModule,
   NbSelectModule,
-  NbSpinnerModule,
+  NbSpinnerModule
 } from '@nebular/theme';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
-import { ProfileModalPageComponent } from './profile-modal-page/profile-modal-page.component';
 import { FilterModalPageComponent } from './filter-modal-page/filter-modal-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewTutorProfileComponent } from './view-tutor-profile/view-tutor-profile.component';
@@ -29,11 +28,10 @@ import { MoreAboutTutorComponent } from './more-about-tutor/more-about-tutor.com
 @NgModule({
   declarations: [
     HomeComponent,
-    ProfileModalPageComponent,
     FilterModalPageComponent,
     ViewTutorProfileComponent,
     PopoverMenuComponent,
-    MoreAboutTutorComponent,
+    MoreAboutTutorComponent
   ],
   imports: [
     CommonModule,
@@ -54,8 +52,10 @@ import { MoreAboutTutorComponent } from './more-about-tutor/more-about-tutor.com
     CommonSharedModule,
     FormsModule,
     NbPopoverModule,
+    NbFormFieldModule
   ],
-  exports: [ProfileModalPageComponent, FilterModalPageComponent, ViewTutorProfileComponent, PopoverMenuComponent, MoreAboutTutorComponent],
-  providers: [CallNumber],
+  exports: [FilterModalPageComponent, ViewTutorProfileComponent, PopoverMenuComponent, MoreAboutTutorComponent],
+  providers: [CallNumber]
 })
-export class HomeModule {}
+export class HomeModule {
+}

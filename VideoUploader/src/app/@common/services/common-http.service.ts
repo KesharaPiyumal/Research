@@ -13,7 +13,7 @@ import { AuthService } from '../../auth/auth.service';
 export class CommonHttpService {
   private currentUserSubject;
   public currentUser;
-  public token: any;
+  public token = '';
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private toastService: ToastService) {
     this.currentUserSubject = JSON.parse(localStorage.getItem('currentUser'));
