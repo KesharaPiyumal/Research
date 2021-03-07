@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS, cross_origin
 
-UPLOAD_FOLDER = 'C:/Users/dimut/Desktop/RS/Uploads'
+UPLOAD_FOLDER = 'C:/Users/Kesara/Research/uploads'
 
 app = Flask(__name__)
 cors = CORS(app)

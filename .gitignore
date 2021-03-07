@@ -1,4 +1,7 @@
 /.idea/
 /VideoUploader/plugins/
-/flaskServer/.idea/
-/flaskServer/venv/Lib/
+/FlaskServer/.idea/
+/FlaskServer/venv
+/FlaskServer/weight.hdf5
+/FlaskServer/static
+/FlaskServer/templates
