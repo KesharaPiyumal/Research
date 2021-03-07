@@ -8,12 +8,13 @@ import { PopoverMenuComponent } from './popover-menu/popover-menu.component';
 import { PopMenuType, StatusCodes } from '../@common/enum';
 import { FormBuilder } from '@angular/forms';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { ToastService } from '../@common/services/toast.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [FileChooser]
+  providers: [FileChooser],
 })
 export class HomeComponent implements OnInit {
   currentUser: any;
@@ -22,11 +23,12 @@ export class HomeComponent implements OnInit {
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   items = [
     { title: 'Profile', icon: 'person-outline', data: 1 },
-    { title: 'Log out', icon: 'log-out-outline', data: 2 }
+    { title: 'Log out', icon: 'log-out-outline', data: 2 },
   ];
 
   uploadForm: any;
   private videoFile: any;
+  videoUploading = false;
 
   constructor(
     private menu: MenuController,
@@ -34,9 +36,9 @@ export class HomeComponent implements OnInit {
     public homeService: HomeService,
     public router: Router,
     public fb: FormBuilder,
-    public modalController: ModalController,
     public popoverController: PopoverController,
-    private fileChooser: FileChooser
+    private fileChooser: FileChooser,
+    private toastService: ToastService
   ) {
     if (localStorage.getItem('currentUser')) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -46,7 +48,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.uploadForm = this.fb.group({
       file: [''],
-      translatedText: ['']
+      translatedText: [''],
     });
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
@@ -64,7 +66,7 @@ export class HomeComponent implements OnInit {
       event,
       translucent: true,
       animated: true,
-      showBackdrop: true
+      showBackdrop: true,
     });
     await popover.present();
     const popData = await popover.onWillDismiss();
@@ -75,8 +77,7 @@ export class HomeComponent implements OnInit {
           if (localStorage.getItem('currentUser')) {
             localStorage.clear();
           }
-          this.router.navigate(['']).then((r) => {
-          });
+          this.router.navigate(['']).then((r) => {});
         }
       }
     }
@@ -87,32 +88,59 @@ export class HomeComponent implements OnInit {
   }
 
   openFile() {
-    this.fileChooser.open()
-      .then(uri => console.log(uri))
-      .catch(e => console.log(e));
+    this.fileChooser
+      .open()
+      .then((uri) => console.log(uri))
+      .catch((e) => console.log(e));
   }
 
   chooseFile(event: Event) {
     this.videoFile = event.target['files'][0];
     this.uploadForm.patchValue({
-      file: this.videoFile.name
+      file: this.videoFile.name,
     });
   }
 
   uploadVideo() {
+    if (!this.videoFile) {
+      this.toastService.showToast('warning', 'Missing!', 'Please choose a video..');
+      return;
+    }
+    this.uploadForm.patchValue({
+      translatedText: '',
+    });
+    this.videoUploading = true;
     const formData: FormData = new FormData();
     formData.append('file', this.videoFile);
     this.homeService.uploadVideoData(formData).subscribe(
-      response => {
-        // this.imageUploading = false;
+      (response) => {
         if (response && response.statusCode === StatusCodes.Success) {
-          // this.toastService.showToast('success', 'Success', response.message);
-          // this.getProfileImage();
+          this.getSLText(response.data[0]).subscribe(
+            (next) => {
+              this.videoUploading = false;
+
+              this.uploadForm.patchValue({
+                translatedText: next[0][0][0],
+              });
+            },
+            (error) => {
+              this.videoUploading = false;
+              this.uploadForm.patchValue({
+                translatedText: response.data[0],
+              });
+              this.toastService.showToast('danger', 'Missing!', 'Sinhala word is not responding..');
+            }
+          );
         }
       },
-      error => {
-        // this.imageUploading = false;
+      (error) => {
+        this.videoUploading = false;
+        this.toastService.showToast('danger', 'Missing!', 'Exceeds 10% of free system memory..');
       }
     );
+  }
+
+  getSLText(text) {
+    return this.http.get('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=' + text).pipe();
   }
 }

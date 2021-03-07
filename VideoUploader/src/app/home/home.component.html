@@ -1,57 +1,67 @@
-<div class='ion-page' id='main-content'>
+<div class="ion-page" id="main-content">
   <ion-header>
     <ion-toolbar>
-      <div class='d-flex flex-row align-items-center'>
+      <div class="d-flex flex-row align-items-center">
         <ion-title>Sign Translator</ion-title>
-        <ion-buttons slot='end'>
-          <ion-button shape='round' (click)='presentPopover($event)'
-          >
-            <div style='width: 16px; height: 32px;' class='d-flex justify-content-center align-items-center'>
-              <fa-icon style='font-size: 16px;' icon='ellipsis-v'></fa-icon>
-            </div
-            >
+        <ion-buttons slot="end">
+          <ion-button shape="round" (click)="presentPopover($event)">
+            <div style="width: 16px; height: 32px;" class="d-flex justify-content-center align-items-center">
+              <fa-icon style="font-size: 16px;" icon="ellipsis-v"></fa-icon>
+            </div>
           </ion-button>
         </ion-buttons>
       </div>
     </ion-toolbar>
   </ion-header>
-  <ion-content class='ion-padding'>
-    <div class='p-3'>
-      <form [formGroup]='uploadForm' class='w-100 d-flex flex-column'>
-        <div class='mb-2 d-flex flex-column'>
+  <ion-content class="ion-padding">
+    <div class="d-flex justify-content-center mb-2">
+      <fa-icon style="font-size: 6rem;" icon="american-sign-language-interpreting"></fa-icon>
+    </div>
+    <div class="p-3" [nbSpinner]="videoUploading" nbSpinnerStatus="control">
+      <form [formGroup]="uploadForm" class="w-100 d-flex flex-column">
+        <div class="mb-2 d-flex flex-column">
           <input
-            id='file'
+            shape='round'
+            readonly
+            id="file"
             nbInput
-            fieldSize='medium'
+            fieldSize="medium"
             fullWidth
-            type='text'
-            placeholder='Video File'
-            formControlName='file'
+            type="text"
+            placeholder="Video File"
+            formControlName="file"
             [status]="file.touched ? (file.invalid ? 'danger' : 'primary') : 'basic'"
           />
         </div>
-        <button nbButton class='mb-2' status='basic' hero (click)='fileInput.click()'>Choose
-          <nb-icon icon='file-add-outline'></nb-icon>
+        <button nbButton shape='round' class="mb-2" status="basic" hero (click)="fileInput.click()">
+          Choose
+          <nb-icon icon="video-outline"></nb-icon>
         </button>
-        <button nbButton class='mb-2' status='primary' hero (click)='uploadVideo()'>Upload & Translate
-          <nb-icon icon='upload-outline'></nb-icon>
+        <button nbButton shape='round' class="mb-2" status="danger" hero (click)="uploadVideo()">
+          Upload & Translate
+          <nb-icon icon="upload-outline"></nb-icon>
         </button>
-        <div class='d-flex flex-column mb-2'>
-            <textarea
-              nbInput
-              rows='2'
-              formControlName='translatedText'
-              type='text'
-              placeholder='Translated text..'
-              fullWidth
-              fieldSize='medium'
-            ></textarea>
+        <div class="d-flex flex-column mb-2">
+          <textarea
+            shape='round'
+            readonly
+            nbInput
+            rows="2"
+            formControlName="translatedText"
+            type="text"
+            placeholder="Translated text.."
+            fullWidth
+            fieldSize="medium"
+          ></textarea>
         </div>
       </form>
     </div>
+    <div class="bottom-copy-right d-flex justify-content-center w-100">
+      <span>Copyright © 2021 By SE/2015/029. All rights reserved. </span>
+    </div>
     <!--input image file-->
-    <div style='display: none'>
-      <input type='file' id='videoUpload' accept='video/mp4,video/x-m4v,video/*' #fileInput (change)='chooseFile($event)' />
+    <div style="display: none;">
+      <input type="file" id="videoUpload" accept="video/mp4,video/x-m4v,video/*" #fileInput (change)="chooseFile($event)" />
     </div>
   </ion-content>
 </div>
